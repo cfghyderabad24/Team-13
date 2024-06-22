@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import sendEmail from "../utils/SendEmail";
+import sendEmail from "../utils/SendEmail.js";
 
 const projectSchema = new Schema(
   {
