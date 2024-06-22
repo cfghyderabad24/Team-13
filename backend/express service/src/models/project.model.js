@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import sendEmail from "../utils/SendEmail";
 
 const projectSchema = new Schema(
   {
@@ -63,6 +64,28 @@ projectSchema.pre("save", async function (next) {
       : this.budget < 1000000
       ? "regional_commitee"
       : "head_office";
+});
+
+projectSchema.pre("save", async function (next) {
+  if (this.isModified("current_status")) {
+    if (this.current_status === "approved") {
+      if (this.current_stage === this.cutoff) {
+        this.sentToFinance = true;
+      } else {
+        this.current_stage = await Stage.findOne({ name: this.current_stage })
+          .next_stage;
+      }
+    } else if (this.current_status === "declined") {
+      sendEmail(
+        await Stage.findOne({ name: this.current_stage }).email,
+        "Project Declined",
+        `Your project with id ${mongoose.Types.ObjectId(
+          this._id
+        )} has been declined.`
+      );
+    }
+  }
+  next();
 });
 
 export const Project = mongoose.model("Project", projectSchema);
