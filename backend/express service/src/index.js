@@ -1,5 +1,18 @@
 import dotenv from "dotenv";
-
+import app from "./app.js";
+import connectDB from "./db/index.js";
+import scheduleDailyCheck from "./utils/dailyCheck.js";
 dotenv.config({
-  path: "../../../.env",
+  path: "../../.env",
 });
+
+connectDB()
+  .then(() => {
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
+    });
+    scheduleDailyCheck();
+  })
+  .catch((error) => {
+    console.log(`Error: ${error.message}`);
+  });

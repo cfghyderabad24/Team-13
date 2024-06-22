@@ -23,10 +23,6 @@ const projectSchema = new Schema(
       enum: ["approved", "pending", "declined"],
       default: "pending",
     },
-    deadline: {
-      type: Date,
-      required: true,
-    },
     ITR: {
       type: String, //cloudinary url
       required: true,
@@ -41,6 +37,20 @@ const projectSchema = new Schema(
     sentToFinance: {
       type: Boolean,
       default: false,
+    },
+    siteVisitDate: {
+      type: Date,
+    },
+    escalationDate: {
+      type: Date,
+    },
+    lastEscalationNotification: {
+      type: Date,
+      default: null,
+    },
+    lastSiteVisitNotification: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true }

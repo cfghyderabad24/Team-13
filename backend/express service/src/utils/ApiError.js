@@ -1,15 +1,10 @@
 class ApiError {
-  constructor(
-    statusCode,
-    message = "An error occured",
-    errors = [],
-    stack = ""
-  ) {
-    super(message);
-    this.statusCode = statusCode;
+  constructor(status, message = "An error occured", errors = [], stack = "") {
+    this.status = status;
     this.message = message;
     this.errors = errors;
     this.data = null;
+    this.success = false;
 
     if (stack) {
       this.stack = stack;
