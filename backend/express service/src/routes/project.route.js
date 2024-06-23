@@ -6,6 +6,7 @@ import {
   fetchProjectsPerRole,
   approveProject,
   rejectProject,
+  getProjectDetailsForRole,
 } from "../controllers/project.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { ejectFrontliner } from "../middlewares/ejectFrontliner.middleware.js";
@@ -30,5 +31,6 @@ projectRouter.get(
 projectRouter.get("/role/:role", fetchProjectsPerRole);
 projectRouter.patch("/approve/:project_id", approveProject);
 projectRouter.patch("/reject/:project_id", rejectProject);
+projectRouter.patch("/role/:role/:project_id", getProjectDetailsForRole);
 
 export default projectRouter;

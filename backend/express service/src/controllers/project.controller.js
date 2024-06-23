@@ -124,6 +124,21 @@ const rejectProject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Project rejected", project));
 });
 
+const getProjectDetailsForRole = asyncHandler(async (req, res) => {
+  const { role, project_id } = req.params;
+  if (!role || !project_id) {
+    throw new ApiError(400, "Role and Project ID are required");
+  }
+  const project = await Project.findOne({
+    current_stage: role,
+    _id: project_id,
+  });
+  if (!project) {
+    throw new ApiError(404, "Project not found");
+  }
+  return res.status(200).json(new ApiResponse(200, "Project fetched", project));
+});
+
 export {
   addProject,
   fetchProjects,
@@ -131,4 +146,5 @@ export {
   fetchProjectsPerRole,
   approveProject,
   rejectProject,
+  getProjectDetailsForRole,
 };
